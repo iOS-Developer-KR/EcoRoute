@@ -80,8 +80,10 @@ struct SelectedDetailView: View {
                 Image(systemName: trans.image.0)
                     .resizable()
                     .frame(width: trans.image.1, height: trans.image.2)
-                Text("\(transferTimeInterval(time: time))")
-                    .font(.caption2)
+//                Text("\(transferTimeInterval(time: time))")
+//                    .font(.caption2)
+                Text(trans.rawValue)
+                    .font(.caption)
             }
         }
         .buttonStyle(routeButtonStyle())
@@ -100,11 +102,11 @@ struct SelectedDetailView: View {
                 mapState.routeVM.selectedRoute = mapState.routeVM.automobileRoute
                 mapState.model.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
             }
-//            Spacer()
-//            RouteButton(trans: .bus, time: mapState.routeVM.transitRoute?.route?.expectedTravelTime, distance: mapState.routeVM.transitRoute?.route?.distance ?? 0) {
-//                mapState.routeVM.selectedRoute = mapState.routeVM.transitRoute
-//                mapState.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeTransit])
-//            }
+            Spacer()
+            RouteButton(trans: .transit, time: mapState.routeVM.transitRoute?.route?.expectedTravelTime, distance: mapState.routeVM.transitRoute?.route?.distance ?? 0) {
+                mapState.routeVM.selectedRoute = mapState.routeVM.transitRoute
+                mapState.model.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeTransit])
+            }
             Spacer()
         }
     }
@@ -119,7 +121,7 @@ struct SelectedDetailView: View {
             HStack {
                 CarbonBar(transport: .automobile, emission: calculateCarbonEmission(distance: mapState.routeVM.automobileRoute?.route?.distance ?? 0, transportMode: .automobile))
                 
-                CarbonBar(transport: .bus, emission: calculateCarbonEmission(distance: mapState.routeVM.automobileRoute?.route?.distance ?? 0, transportMode: .bus))
+                CarbonBar(transport: .transit, emission: calculateCarbonEmission(distance: mapState.routeVM.automobileRoute?.route?.distance ?? 0, transportMode: .transit))
                 
                 CarbonBar(transport: .subway, emission: calculateCarbonEmission(distance: mapState.routeVM.automobileRoute?.route?.distance ?? 0, transportMode: .subway))
             }
@@ -177,7 +179,7 @@ struct routeButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundStyle(Color.white)
-            .frame(width: 100, height: 65)
+            .frame(width: 110, height: 60)
             .background(Color.accentColor)
             .clipShape(RoundedRectangle(cornerRadius: 20))
     }

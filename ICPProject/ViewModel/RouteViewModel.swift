@@ -72,15 +72,15 @@ class RouteViewModel: ObservableObject {
         guard let destination = item else { return }
 
         guard let walkRequest = createDirectionsRequest(to: destination, mode: .walking),
-              let autoRequest = createDirectionsRequest(to: destination, mode: .automobile),
-              let trasRequest = createDirectionsRequest(to: destination, mode: .transit) else {
+              let autoRequest = createDirectionsRequest(to: destination, mode: .automobile)
+              /*let trasRequest = createDirectionsRequest(to: destination, mode: .transit)*/ else {
             return
         }
         
         // Combine을 사용하여 비동기적으로 경로를 계산
         let walkPublisher = getDirectionsPublisher(request: walkRequest)
         let autoPublisher = getDirectionsPublisher(request: autoRequest)
-        let transitPublisher = getDirectionsPublisher(request: trasRequest)
+//        let transitPublisher = getDirectionsPublisher(request: trasRequest)
         
         // 각각의 퍼블리셔를 구독하여 경로를 업데이트
         walkCancellable = walkPublisher

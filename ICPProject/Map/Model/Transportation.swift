@@ -10,7 +10,7 @@ import SwiftUI
 enum Transportation: String {
     case walking
     case automobile
-    case bus
+    case transit
     case bicycle
     case subway
     
@@ -20,7 +20,7 @@ enum Transportation: String {
             return ("figure.walk", 15, 20)
         case .automobile:
             return ("car.fill", 23, 20)
-        case .bus:
+        case .transit:
             return ("bus", 15, 20)
         case .bicycle:
             return ("bicycle", 15, 20)
@@ -35,7 +35,7 @@ enum Transportation: String {
             return .cyan
         case .automobile:
             return .red
-        case .bus:
+        case .transit:
             return .orange
         case .bicycle:
             return .blue

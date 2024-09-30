@@ -76,6 +76,7 @@ struct SearchView: View {
                             print("search 눌렸다")
                         } label: {
                             Text(completion.title)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading, 3)
                         }
                         

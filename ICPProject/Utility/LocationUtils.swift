@@ -40,7 +40,7 @@ func calculateCarbonEmission(distance: Double, transportMode: Transportation) ->
         emissionFactor = 0 // 도보는 탄소 배출 없음
     case .automobile:
         emissionFactor = 180 // 자동차의 킬로미터당 CO₂ 배출량 (가솔린 기준)
-    case .bus:
+    case .transit:
         emissionFactor = 80 // 대중교통의 킬로미터당 CO₂ 배출량 (버스 기준)
     case .bicycle:
         emissionFactor = 0
