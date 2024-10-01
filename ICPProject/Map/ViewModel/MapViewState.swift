@@ -30,7 +30,7 @@ class MapViewModel: NSObject, ObservableObject {
         $model
             .map(\.selectedResult)
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-            .removeDuplicates() // 중복된 값을 제거합니다.
+            .removeDuplicates()
             .sink { [weak self] result in
                 if result == nil {
                     self?.model.sheetVisible = false
