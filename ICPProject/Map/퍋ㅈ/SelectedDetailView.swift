@@ -15,7 +15,6 @@ struct SelectedDetailView: View {
     @EnvironmentObject var routeVM: RouteViewModel
     @Environment(\.dismiss) var dismiss
     @State private var selectedTransport: Transportation = .automobile
-//    @State private var initialDistance: String? = nil
     var locationManager = LocationManager.shared
 
     var body: some View {
@@ -28,9 +27,7 @@ struct SelectedDetailView: View {
             RouteButtons
             
             CarbonEmissionSummary
-            
-//            CarbonSeriousBar(transport: selectedTransport)
-            
+                        
             Spacer()
         }
     }
@@ -63,7 +60,6 @@ struct SelectedDetailView: View {
     //MARK: DISTANCE 나타내는 뷰
     var DistanceText: some View {
         HStack {
-//            Text("0m")
             if let state = mapState.model.selectedResult {
                 Text("Distance: \(calculateDistanceFromMe(to: state.placemark.coordinate))")
             }
@@ -80,8 +76,7 @@ struct SelectedDetailView: View {
                 Image(systemName: trans.image.0)
                     .resizable()
                     .frame(width: trans.image.1, height: trans.image.2)
-//                Text("\(transferTimeInterval(time: time))")
-//                    .font(.caption2)
+
                 Text(trans.rawValue)
                     .font(.caption)
             }
@@ -92,29 +87,37 @@ struct SelectedDetailView: View {
     //MARK: ROUTE 버튼들
     private var RouteButtons: some View {
         HStack {
+            
             Spacer()
+            
             RouteButton(trans: .walking, time: mapState.routeVM.walkRoute?.route?.expectedTravelTime, distance: mapState.routeVM.walkRoute?.route?.distance ?? 0) {
                 mapState.routeVM.selectedRoute = mapState.routeVM.walkRoute
                 mapState.model.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeWalking])
             }
+            
             Spacer()
+            
             RouteButton(trans: .automobile, time: mapState.routeVM.automobileRoute?.route?.expectedTravelTime, distance: mapState.routeVM.automobileRoute?.route?.distance ?? 0) {
                 mapState.routeVM.selectedRoute = mapState.routeVM.automobileRoute
                 mapState.model.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
             }
+            
             Spacer()
+            
             RouteButton(trans: .transit, time: mapState.routeVM.transitRoute?.route?.expectedTravelTime, distance: mapState.routeVM.transitRoute?.route?.distance ?? 0) {
                 mapState.routeVM.selectedRoute = mapState.routeVM.transitRoute
                 mapState.model.selectedResult?.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeTransit])
             }
+            
             Spacer()
+            
         }
     }
     
     //MARK: 각 탄소 배출량 요약 뷰
     private var CarbonEmissionSummary: some View {
         VStack {
-            Text("교통수단별 탄소 배출량")
+            Text("Carbon Emissions by Transport")
                 .font(.headline)
                 .padding(.vertical, 10)
 
@@ -150,29 +153,6 @@ struct SelectedDetailView: View {
         .frame(height: 50)
     }
     
-    //MARK: 특정 교통수단의 심각도
-//    func CarbonSeriousBar(transport: Transportation) -> some View {
-//        VStack {
-//            RoundedRectangle(cornerRadius: 5)
-//                .fill(transport.color)
-//                .frame(width: 100, height: CGFloat(emission) / 10) // 배출량에 따른 높이 설정
-//                .overlay(
-//                    Text("\(emission, specifier: "%.0f") g CO₂")
-//                        .font(.caption2)
-//                        .foregroundColor(.white)
-//                        .padding(.horizontal, 5),
-//                    alignment: .center
-//                )
-//                .overlay(
-//                    Text(label)
-//                        .font(.caption)
-//                        .foregroundColor(.white)
-//                        .padding(.top, 5),
-//                    alignment: .bottom
-//                )
-//        }
-//    }
-
 }
 
 struct routeButtonStyle: ButtonStyle {
@@ -187,7 +167,7 @@ struct routeButtonStyle: ButtonStyle {
 
 #Preview {
     NavigationStack {
-        SelectedDetailView()//mapState: .init(), locationManager: .init(), routeVM: .init())
+        SelectedDetailView()
             .environmentObject(MapViewModel(routeVM: RouteViewModel()))            .environmentObject(LocationManager())
             .environmentObject(RouteViewModel())
     }

@@ -54,7 +54,5 @@ struct SearchBar: View {
 #Preview {
     NavigationStack {
         SearchBar(mapState: .init(), routeVM: .init(), locationManager: .init())
-//            .environmentObject(LocationManager())
-//            .environmentObject(MapViewModel(routeVM: RouteViewModel()))            .environmentObject(SearchViewModel())
     }
 }

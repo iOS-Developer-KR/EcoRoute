@@ -10,7 +10,6 @@ import SwiftUI
 struct SearchView: View {
     
     @EnvironmentObject var mapState: MapViewModel
-    //    @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var routeVM: RouteViewModel
     @EnvironmentObject var searchVM: SearchViewModel
     @FocusState private var focus: Bool
@@ -65,7 +64,7 @@ struct SearchView: View {
     var completionList: some View {
         ScrollView(.vertical) {
             LazyVStack {
-                ForEach(/*preSearchCompletion*/searchVM.searchCompletions, id: \.self) { completion in
+                ForEach(searchVM.searchCompletions, id: \.self) { completion in
                     HStack {
                         
                         Image(systemName: "magnifyingglass")

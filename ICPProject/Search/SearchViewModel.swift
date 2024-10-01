@@ -18,11 +18,11 @@ class SearchViewModel: NSObject, ObservableObject {
     private var searchCancellable = Set<AnyCancellable>()
     private var searchCompleter: MKLocalSearchCompleter
     var locationManager = LocationManager.shared
-    var mapState: MapViewModel // 생성자에서 의존성 주입받도록 유지
+    var mapState: MapViewModel
     
     init(mapState: MapViewModel) {
         self.searchCompleter = MKLocalSearchCompleter()
-        self.mapState = mapState // 주입된 mapState 사용
+        self.mapState = mapState
         super.init()
         self.searchCompleter.delegate = self
     }

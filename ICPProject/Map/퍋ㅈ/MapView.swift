@@ -26,10 +26,6 @@ struct MapView: View {
                         .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.25)))
                         .interactiveDismissDisabled()
                 }
-                .sheet(isPresented: $mapState.model.showMapStyleButtons, content: {
-                    MapStyleSelection()
-                        .presentationDetents([.fraction(0.15)])
-                })
                 .onChange(of: searchVM.searchResults, { oldValue, newValue in
                     if !newValue.isEmpty {
                         mapState.model.showLists = true
@@ -57,7 +53,7 @@ struct MapView: View {
     
     /// 선택된 항목들 초기화
     func initalization() {
-            if mapState.model.selectedResult == nil { // 연속적으로 feature를 탭했을 때 sheet를 내리는 로직을 취해서는 안된다
+            if mapState.model.selectedResult == nil {
                 print("연속적으로 feature를 탭하지 않았을 때 내려야 한다")
                 mapState.model.selectedResult = nil
             } else {
@@ -139,26 +135,6 @@ extension MapView {
                 
             } label: {
                 Image(systemName: mapState.model.position.followsUserLocation ? "location.fill" : "location")
-                    .resizable()
-                    .frame(width: 20, height: 20) // 안쪽 아이콘 크기
-                    .foregroundColor(.blue) // 아이콘 색상
-            }
-        }
-        .padding(.horizontal)
-    }
-    
-    // 맵 스타일 바꾸는 sheet 버튼
-    private var mapStyleSelectionButton: some View {
-        ZStack {
-            Circle()
-                .fill(Color(uiColor: .systemGray6))
-                .frame(width: 50, height: 50) // 바깥 Circle 크기
-            Button {
-                withAnimation {
-                    mapState.model.showMapStyleButtons.toggle()
-                }
-            } label: {
-                Image(systemName: "map.fill")
                     .resizable()
                     .frame(width: 20, height: 20) // 안쪽 아이콘 크기
                     .foregroundColor(.blue) // 아이콘 색상

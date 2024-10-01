@@ -11,7 +11,6 @@ import MapKit
 import Combine
 
 
-// ViewModel 정의
 @MainActor
 class MapViewModel: NSObject, ObservableObject {
 

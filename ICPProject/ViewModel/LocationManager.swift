@@ -10,8 +10,6 @@ import MapKit
 
 class LocationManager: NSObject, ObservableObject {
     @Published var region: MKCoordinateRegion = MKCoordinateRegion()
-//    @Published var routeViewModel: RouteViewModel?
-//    @Published var mapViewState: MapViewModel?
     
     static var shared = LocationManager()
     private let manager = CLLocationManager()

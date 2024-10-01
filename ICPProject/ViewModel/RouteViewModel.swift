@@ -51,17 +51,6 @@ class RouteViewModel: ObservableObject {
     }
     
     @MainActor func getDirections(item: MKMapItem?) {
-        // 새로운 목적지와 현재 목적지가 동일한지 확인하여 중복 호출 방지
-//        if let destination = item, destination == currentDestination {
-//            print("이미 탐색된 경로입니다. 중복 탐색 방지.")
-//            return
-//        }
-        
-        // 이전 구독을 취소
-//        walkCancellable?.cancel()
-//        autoCancellable?.cancel()
-//        transitCancellable?.cancel()
-        
         // 목적지가 달라지면 새로운 탐색을 실행
         currentDestination = item
         
@@ -71,30 +60,13 @@ class RouteViewModel: ObservableObject {
         
         guard let destination = item else { return }
 
-        guard let walkRequest = createDirectionsRequest(to: destination, mode: .walking),
-              let autoRequest = createDirectionsRequest(to: destination, mode: .automobile)
-              /*let trasRequest = createDirectionsRequest(to: destination, mode: .transit)*/ else {
+        guard let autoRequest = createDirectionsRequest(to: destination, mode: .automobile) else {
             return
         }
         
         // Combine을 사용하여 비동기적으로 경로를 계산
-        let walkPublisher = getDirectionsPublisher(request: walkRequest)
         let autoPublisher = getDirectionsPublisher(request: autoRequest)
-//        let transitPublisher = getDirectionsPublisher(request: trasRequest)
-        
-        // 각각의 퍼블리셔를 구독하여 경로를 업데이트
-        walkCancellable = walkPublisher
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                if case let .failure(error) = completion {
-                    print("도보 경로 계산 중 오류 발생: \(error.localizedDescription)")
-                }
-            }, receiveValue: { [weak self] response in
-                self?.walkRoute = Route(route: response.routes.first)
-                self?.selectedRoute = self?.walkRoute
-                //print("🤗\(self?.walkRoute?.route?.expectedTravelTime.description ?? "예상시간 없음")")
-            })
-        
+
         autoCancellable = autoPublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
@@ -104,16 +76,6 @@ class RouteViewModel: ObservableObject {
             }, receiveValue: { [weak self] response in
                 self?.automobileRoute = Route(route: response.routes.first)
             })
-        
-//        transitCancellable = transitPublisher
-//            .receive(on: DispatchQueue.main)
-//            .sink(receiveCompletion: { completion in
-//                if case let .failure(error) = completion {
-//                    print("대중교통 경로 계산 중 오류 발생: \(error.localizedDescription)")
-//                }
-//            }, receiveValue: { [weak self] response in
-//                self?.transitRoute = Route(route: response.routes.first)
-//            })
     }
 
     

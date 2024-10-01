@@ -15,25 +15,22 @@ struct FoundItemListView: View {
     var locationManager = LocationManager.shared
     
     var body: some View {
-//        NavigationStack {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        print("dismiss 왜 안되는건데")
-//                        mapState.showLists = false
-                        mapState.reset()
-                        searchVM.removeState()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                }.padding()
-                
-                Divider()
-                
-                scrollView
-            }
-//        }
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    print("dismiss 왜 안되는건데")
+                    mapState.reset()
+                    searchVM.removeState()
+                } label: {
+                    Image(systemName: "xmark")
+                }
+            }.padding()
+            
+            Divider()
+            
+            scrollView
+        }
     }
 }
 
@@ -41,15 +38,10 @@ extension FoundItemListView {
     
     private var scrollView: some View {
         ScrollView {
-            ForEach(searchVM.searchResults, id: \.self) { result in
+            ForEach(/*fakeMapItem*/searchVM.searchResults, id: \.self) { result in
                 let distance = calculateDistance(coord1: result.placemark.coordinate, coord2: locationManager.region.center)
                 
-//                NavigationLink {
-//                    SelectedDetailView()
-//                } label: {
                 Button {
-                    // 이게 잠시 dismiss되고 detailview가 올라와야한다
-                    // detailview가 닫히면 이게 다시 올라와야한다
                     mapState.model.showLists = false
                     mapState.model.selectedResult = result
                 } label: {
@@ -57,19 +49,21 @@ extension FoundItemListView {
                         VStack(alignment: .leading) {
                             Text(result.name ?? "")
                             Text("\(convertMeterToKm(distance: distance))")
+                                .font(.footnote)
+                                .foregroundStyle(Color.gray)
                         }.foregroundStyle(Color.black)
                         Spacer()
                         annotationImage(for: result)
+                            .shadow(radius: 2)
+                            .padding()
                     }
                 }
-//                }
-                
                 Divider()
             }
             .presentationDetents([.fraction(0.45), .fraction(0.2)])
             .interactiveDismissDisabled()
             .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.45)))
-            .padding()
+            .padding(.horizontal)
             
             Spacer()
         }
