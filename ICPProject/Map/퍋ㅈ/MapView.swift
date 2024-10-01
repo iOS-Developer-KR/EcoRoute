@@ -97,10 +97,6 @@ extension MapView {
                 
             }
         }
-//        .overlay(alignment: .topTrailing, content: {
-//            buttonOnMap
-//                .padding(.top, 40)
-//        })
         .sheet(isPresented: $mapState.model.sheetVisible) {
             SelectedDetailView()
                 .presentationDetents([.fraction(0.35)])
