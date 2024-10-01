@@ -53,15 +53,14 @@ struct MapView: View {
     
     /// 선택된 항목들 초기화
     func initalization() {
-            if mapState.model.selectedResult == nil {
-                print("연속적으로 feature를 탭하지 않았을 때 내려야 한다")
-                mapState.model.selectedResult = nil
-            } else {
-                mapState.model.selectedResult = nil
-                if mapState.model.sheetVisible == true {
-                    mapState.model.sheetVisible = false
-                }
+        if mapState.model.selectedResult == nil {
+            mapState.model.selectedResult = nil
+        } else {
+            mapState.model.selectedResult = nil
+            if mapState.model.sheetVisible == true {
+                mapState.model.sheetVisible = false
             }
+        }
     }
 }
 
@@ -73,7 +72,6 @@ extension MapView {
                 Marker(item: selected)
             } else {
                 ForEach(searchVM.searchResults, id: \.self) { result in
-                    
                     Marker(item: result)
                 }
             }
@@ -85,27 +83,24 @@ extension MapView {
             print("onTapGeustre")
             initalization()
         }
-        .overlay(alignment: .bottomTrailing) {
-            HStack {
-                Spacer()
-                
-            }
-            .safeAreaPadding(.all)
-
-        }
         .overlay(alignment: .top) {
             VStack {
                 SearchView()
 
                 HStack {
+                    
                     Spacer()
-                    VStack {
-                        buttonOnMap
-                    }
+
+                    buttonOnMap
+
                 }
                 
             }
         }
+//        .overlay(alignment: .topTrailing, content: {
+//            buttonOnMap
+//                .padding(.top, 40)
+//        })
         .sheet(isPresented: $mapState.model.sheetVisible) {
             SelectedDetailView()
                 .presentationDetents([.fraction(0.35)])
@@ -126,7 +121,7 @@ extension MapView {
         ZStack {
             Circle()
                 .fill(Color(uiColor: .systemGray6))
-                .frame(width: 50, height: 50) // 바깥 Circle 크기
+                .frame(width: 40, height: 40) // 바깥 Circle 크기
                 .shadow(radius: 5)
             Button {
                 withAnimation(.spring) {

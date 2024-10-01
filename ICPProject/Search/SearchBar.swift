@@ -21,7 +21,7 @@ struct SearchBar: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                 
-                Text("원하는 장소를 검색하세요...")
+                Text("Search for a location...")
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -34,25 +34,29 @@ struct SearchBar: View {
             .onTapGesture {
                 searchVM.isSearchView = true
             }
-     
-            if !locationManager.isNearMe && !searchVM.searchResults.isEmpty {
-                Button {
-                    searchVM.search(for: searchVM.text, relocation: true)
-                } label: {
-                    Text("↻이 지역 재탐색")
-                        .padding(8)
-                        .font(.footnote)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        
+            .overlay(alignment: .center) {
+                if !locationManager.isNearMe && !searchVM.searchResults.isEmpty {
+                    Button {
+                        searchVM.search(for: searchVM.text, relocation: true)
+                    } label: {
+                        Text("↻ Reload this area")
+                            .padding(8)
+                            .font(.footnote)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            
+                    }.padding(.top, 80)
                 }
             }
+
+            
+     
+            
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        SearchBar(mapState: .init(), routeVM: .init(), locationManager: .init())
-    }
+    SearchBar(mapState: .init(), routeVM: .init(), locationManager: .init())
+            .environmentObject(SearchViewModel(mapState: MapViewModel(routeVM: RouteViewModel())))
 }

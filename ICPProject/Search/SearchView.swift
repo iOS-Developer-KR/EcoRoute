@@ -49,7 +49,7 @@ struct SearchView: View {
                 .padding(.horizontal, 3)
             
             TextField(text: $searchVM.text) {
-                Text("장소, 버스, 지하철, 주소 검색")
+                Text("Search places, buses, subways, addresses")
             }
             .focused($focus)
             .onAppear {
@@ -72,7 +72,6 @@ struct SearchView: View {
                             .padding(.leading)
                         Button {
                             searchVM.search(for: completion.title)
-                            print("search 눌렸다")
                         } label: {
                             Text(completion.title)
                                 .frame(maxWidth: .infinity, alignment: .leading)
