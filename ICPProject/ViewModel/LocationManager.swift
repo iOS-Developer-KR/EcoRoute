@@ -33,7 +33,6 @@ class LocationManager: NSObject, ObservableObject {
     
     func checkNearMe(cameraRegion: MKCoordinateRegion) -> Bool {
         requestLocation()
-        print("거리계산")
         let distance = calculateDistance(lat1: region.center.latitude, lon1: region.center.longitude,
                                          lat2: cameraRegion.center.latitude, lon2: cameraRegion.center.longitude)
 

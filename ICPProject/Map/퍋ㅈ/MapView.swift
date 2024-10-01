@@ -91,7 +91,7 @@ extension MapView {
                     
                     Spacer()
 
-                    buttonOnMap
+                    UserLocationButton
 
                 }
                 
@@ -113,7 +113,7 @@ extension MapView {
     
     //MARK: UI PARTS
     
-    private var buttonOnMap: some View {
+    private var UserLocationButton: some View {
         ZStack {
             Circle()
                 .fill(Color(uiColor: .systemGray6))
@@ -123,7 +123,6 @@ extension MapView {
                 withAnimation(.spring) {
                     mapState.model.position = .userLocation(fallback: .automatic)
                 }
-                
             } label: {
                 Image(systemName: mapState.model.position.followsUserLocation ? "location.fill" : "location")
                     .resizable()
