@@ -29,9 +29,19 @@ func convertMeterToKm(distance: CLLocationDistance) -> String {
 func calculateDistanceFromMe(to: CLLocationCoordinate2D) -> String {
     let current = LocationManager.shared.requestLocation()
     let distance = calculateDistance(coord1: current.center, coord2: to)
-    return convertMeterToKm(distance: distance)
+//    return convertMeterToKm(distance: distance)
+    return convertMeterToMiles(distance: distance)
+
 }
 
+func convertMeterToMiles(distance: CLLocationDistance) -> String {
+    if distance >= 1609 {
+        let miles = distance / 1609.0
+        return String(format: "%.2f miles", miles)  // 마일 단위로 변환하여 반환
+    } else {
+        return String(format: "%.0f m", distance)  // 1609 미터 미만은 미터 단위로 반환
+    }
+}
 
 func calculateCarbonEmission(distance: Double, transportMode: Transportation) -> Double {
     let emissionFactor: Double // g CO₂/km

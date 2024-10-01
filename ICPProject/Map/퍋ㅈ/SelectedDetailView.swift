@@ -12,11 +12,10 @@ import MapKit
 
 struct SelectedDetailView: View {
     @EnvironmentObject var mapState: MapViewModel
-//    @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var routeVM: RouteViewModel
     @Environment(\.dismiss) var dismiss
     @State private var selectedTransport: Transportation = .automobile
-    @State private var initialDistance: String? = nil
+//    @State private var initialDistance: String? = nil
     var locationManager = LocationManager.shared
 
     var body: some View {
@@ -24,7 +23,7 @@ struct SelectedDetailView: View {
             
             Header
             
-            //DistanceText
+            DistanceText
             
             RouteButtons
             
@@ -57,16 +56,17 @@ struct SelectedDetailView: View {
             }
         }
         .frame(height: 40)
-        .padding()
+        .padding(.horizontal)
+        .padding(.top)
     }
     
     //MARK: DISTANCE 나타내는 뷰
     var DistanceText: some View {
         HStack {
+//            Text("0m")
             if let state = mapState.model.selectedResult {
-                Text("\(calculateDistanceFromMe(to: state.placemark.coordinate))")
+                Text("Distance: \(calculateDistanceFromMe(to: state.placemark.coordinate))")
             }
-            Text(initialDistance ?? "")
             Spacer()
         }
         .frame(height: 15)
